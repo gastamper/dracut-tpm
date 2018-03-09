@@ -41,9 +41,9 @@ tpm_nvwrite -i 1 -s 256 -f /mnt/ramfs/key -z -p
 If you wish to use nv_readvalue, follow the below instructions:
 1. Clone http://github.com/gastamper/tpm-luks
 2. Build the TPM-LUKS project:
-  1. autreconf -ivf
-  2. configure
-  3. make
+   1. autreconf -ivf
+   2. configure
+   3. make
 3. Copy nv_readvalue to /usr/bin: `cp swtpm-utils/nv_readvalue /usr/bin`
 
 # Considerations
