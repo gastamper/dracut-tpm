@@ -33,10 +33,34 @@ mount -t tpmfs -o size=1m tmpfs /mnt/ramfs
 dd if=/dev/random of=/mnt/ramfs/key bs=1 count=256
 # Define a new NVRAM area at the specified index, of the specified size
 # See 'man tpm_nvdefine' for permissions explanation
-tpm_nvdefine -i 1 -s 256 -p "OWNERWRITE|READ_STCLEAR" -o <owner_password>
+tpm_nvdefine -i 1 -s 256 -p "OWNERWRITE|READ_STCLEAR" -o <owner_password> [-z <PCR1> -z <PCR2> ... n]
 # Write the data to index 1, size 256
 tpm_nvwrite -i 1 -s 256 -f /mnt/ramfs/key -z -p
 ```
+
+# tpm_nvdefine explained
+The **tpm_nvdefine** command is used to not only define the area within the NVRAM in which to store the key, but also to assign a specific set of PCRs (platform configuration registers) to which the area should be bound; in the event that these PCRs change, the NVRAM area will be inaccessible.  This prevents, for example, removing the device from one machine and accessing it from another, or accessing it using a custom kernel or bootloader.
+
+The PCR table is as follows for TPM 1.2:
+
+| PCR Number | Allocation       |
+| :---------- | ---------------- |
+|0           | BIOS             |
+|1         | BIOS configuration |
+|2         | Option ROMs |
+|3         | Option ROM configuration |
+|4         | MBR |
+|5         | MBR configuration |
+|6         | State transition/wake events |
+|7         | Platform manufacturer specification measurement |
+|8-15         | Static operating system |
+|16         | Debug |
+|23         | Application support |
+
+While recommending a specific set of PCRs as 'optimal' is outside of scope for this project, typicall 0-5 would provide a reasonable starting point.  It is worth noting that an NVRAM area can be bound to no, one, some, or all PCRs depending on preference.
+
+# The READ_STCLEAR flag
+The *READ_STCLEAR* flag may be useful when defining an NVRAM area since it effectively "locks" the NVRAM area from further reading until the next reboot.  This flag may be triggered by issuing a read of size zero to a flagged index, f.e. `tpm_nvread -i 1 -s 0`.
 
 # Using nv_readvalue
 If you wish to use nv_readvalue, follow the below instructions:
