@@ -1,5 +1,5 @@
 # centos-dracut-tpm
-This project provides a module for dracut to allow reading keys from TPM 1.2 modules to unlock LUKS devices at boot time.
+This project provides a *simple* module for dracut to allow reading keys from TPM 1.2 modules to unlock LUKS devices at boot time.
 
 # Requirements
 One of the two options must be chosen:
