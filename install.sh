@@ -48,9 +48,6 @@ case $1 in
   sed -i '/METHOD=0/c\METHOD=1' nv-hook.sh
   # Ensure no incidence of trousers/tpm_nvread left over
   sed -i 's/inst_multiple.*/inst_multiple nc nv_readvalue/g' module-setup.sh
-#  sed -i 's/tpm_nvread//g' module-setup.sh
-#  sed -i 's/\/etc\/hosts//g' module-setup.sh
-#  sed -i '/^install_multiple:/ s/$/nv_readvalue'
   ;;
   *)
    error_out
