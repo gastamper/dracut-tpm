@@ -27,9 +27,10 @@ It is ultimately a matter of preference with little practical value.  For most u
 # Storing keys in NVRAM
 Keys are stored in NVRAM by using the **tpm_nvwrite** command, part of the tpm-tools package.  The steps for performing this process are as follows; note that this assumes that you have already taken ownership (initialized and taken control) of the TPM module using the **tpm_takeownership** command.
 ```sh
-# Create and a 1MB RAMFS to hold our data
+# Create a 1MB RAMFS to hold our data
 mkdir -p /mnt/ramfs
-mount -t tpmfs -o size=1m tmpfs /mnt/ramfs
+mount -t tmpfs -o size=1m tmpfs /mnt/ramfs
+chmod 700 /mnt/ramfs
 # Generate 256 bytes of random data to serve as our key
 dd if=/dev/random of=/mnt/ramfs/key bs=1 count=256
 # Define a new NVRAM area at the specified index, of the specified size
@@ -37,6 +38,24 @@ dd if=/dev/random of=/mnt/ramfs/key bs=1 count=256
 tpm_nvdefine -i 1 -s 256 -p "OWNERWRITE|READ_STCLEAR" -o <owner_password> [-r <PCR1> -r <PCR2> ... n]
 # Write the data to index 1, size 256
 tpm_nvwrite -i 1 -s 256 -f /mnt/ramfs/key -z -p
+```
+
+# Adding TPM keys to LUKS
+The steps below show how to add TPM keys to LUKS without the touching the disk, using a RAMFS.  It is recommended to use **nv_readvalue** for this as **tpm_nvread** will only output ASCII if writing to a file.
+```sh
+# Create a 1MB RAMFS to hold our data
+mkdir -p /mnt/ramfs
+mount -t tmpfs -o size=1m tmpfs /mnt/ramfs
+chmod 700 /mnt/ramfs
+# Store value for existing LUKS key in keyfile
+# This is necessary to add new keys to a LUKS device
+echo -n "exising_luks_key" > /mnt/ramfs/keyfile
+# Read values from the specified NVRAM slot into keyfile
+nv_readvalue -ix 1 -sz 256 -a | cryptsetup luksAddKey /dev/sda3 - --key-file=/mnt/ramfs/keyfile
+# tcsd; tpm_nvread -i 1 -s 256 -f /mnt/ramfs/nvramkey
+# cryptsetup luksAddKey /dev/sda3 /mnt/ramfs/nvramkey --key-file=/mnt/ramfs/keyfile
+# Unmount RAMFS
+umount /mnt/ramfs
 ```
 
 # tpm_nvdefine explained
