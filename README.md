@@ -1,4 +1,4 @@
-# centos-dracut-tpm
+# dracut-tpm
 This project provides a *simple* module for dracut to allow reading keys from TPM 1.2 modules to unlock LUKS devices at boot time.
 
 # Requirements
@@ -36,6 +36,15 @@ tpm_nvdefine -i 1 -s 256 -p "OWNERWRITE|READ_STCLEAR" -o <owner_password>
 # Write the data to index 1, size 256
 tpm_nvwrite -i 1 -s 256 -f /mnt/ramfs/key -z -p
 ```
+
+# Using nv_readvalue
+If you wish to use nv_readvalue, follow the below instructions:
+1. Clone http://github.com/gastamper/tpm-luks
+2. Build the TPM-LUKS project:
+  1. autreconf -ivf
+  2. configure
+  3. make
+3. Copy nv_readvalue to /usr/bin: `cp swtpm-utils/nv_readvalue /usr/bin`
 
 # Considerations
 **tpm_nvdefine** uses GNU _GETPASSWD_ to prompt for passwords if using the --pwdo option (prompt for non-commandline input of owner password), which always attempts to read input from the terminal device rather than stdin.  As a result, input redirection (storing the password in a file in ramfs) is problematic.  If you are interested in this functionality, please submit an issue and I will see about adding it to tpm_nvdefine.
