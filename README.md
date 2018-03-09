@@ -33,7 +33,7 @@ mount -t tpmfs -o size=1m tmpfs /mnt/ramfs
 dd if=/dev/random of=/mnt/ramfs/key bs=1 count=256
 # Define a new NVRAM area at the specified index, of the specified size
 # See 'man tpm_nvdefine' for permissions explanation
-tpm_nvdefine -i 1 -s 256 -p "OWNERWRITE|READ_STCLEAR" -o <owner_password> [-z <PCR1> -z <PCR2> ... n]
+tpm_nvdefine -i 1 -s 256 -p "OWNERWRITE|READ_STCLEAR" -o <owner_password> [-r <PCR1> -r <PCR2> ... n]
 # Write the data to index 1, size 256
 tpm_nvwrite -i 1 -s 256 -f /mnt/ramfs/key -z -p
 ```
@@ -57,7 +57,7 @@ The PCR table is as follows for TPM 1.2:
 |16         | Debug |
 |23         | Application support |
 
-While recommending a specific set of PCRs as 'optimal' is outside of scope for this project, typicall 0-5 would provide a reasonable starting point.  It is worth noting that an NVRAM area can be bound to no, one, some, or all PCRs depending on preference.
+While recommending a specific set of PCRs as 'optimal' is outside of scope for this project, typically PCRs 0 through 5 would provide a reasonable starting point.  It is worth noting that an NVRAM area can be bound to no, one, some, or all PCRs depending on preference, by issuing multiple -r arguments to the **tpm_nvdefine** command.
 
 # The READ_STCLEAR flag
 The *READ_STCLEAR* flag may be useful when defining an NVRAM area since it effectively "locks" the NVRAM area from further reading until the next reboot.  This flag may be triggered by issuing a read of size zero to a flagged index, f.e. `tpm_nvread -i 1 -s 0`.
