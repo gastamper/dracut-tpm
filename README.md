@@ -4,11 +4,11 @@ This project provides a *simple* module for dracut to allow reading keys from TP
 # Requirements
 This project uses **ncat** to communicate with the systemd-ask-password socket; this program is available in CentOS' nmap-ncat package.
 One of the two options for reading from the NVRAM must be chosen:
-1. Use **tcsd** and **tpm_nvread** - this requires the trousers and tpm-tools packages in CentOS
-2. Use the standalone program **nv_readvalue** - this requires building nv_readvalue from [this repository](http://github.com/gastamper/tpm-luks)
+1. Use **tcsd** and **tpm_nvread** - this requires the *trousers* and *tpm-tools* packages in CentOS
+2. Use the standalone program **nv_readvalue** - this requires building **nv_readvalue** from [this repository](http://github.com/gastamper/tpm-luks)
 
 Why choose one over the other?
-tcsd and tpm_nvread are included in the base repositories for CentOS, making this path somewhat more straightforward.  As a downside, it is more complicated "under the hood" so for those who prefer simplicity and a slim initramfs, this may not be the ideal options.  nv_readvalue however can be built as a standalone program, making this single program the only dependency for the dracut module.
+**tcsd** and **tpm_nvread** are included in the base repositories for CentOS, making this path somewhat more straightforward.  As a downside, it is more complicated "under the hood" so for those who prefer simplicity and a slim initramfs, this may not be the ideal options.  **nv_readvalue** however can be built as a standalone program, making this single program the only dependency for the dracut module.
 
 It is ultimately a matter of preference with little practical value.  For most users, option 1 is sufficient.
 
@@ -20,7 +20,7 @@ It is ultimately a matter of preference with little practical value.  For most u
    2. Ensures that the TPM module is owned, active and enabled.
    3. If not using default values, updates the module scripts to use the user-specified NVRAM index and size.
    4. Creates a directory, /usr/lib/dracut/modules.d/50dracuttpm
-   5. Copies the dracut module files to the above directory: module-setup.sh and nv-hook.sh
+   5. Copies the dracut module files to the above directory: *module-setup.sh* and *nv-hook.sh*
 4. Reboot system and confirm automatic unlocking works.
 
 # Storing keys in NVRAM
@@ -49,6 +49,9 @@ If you wish to use nv_readvalue, follow the below instructions:
 
 # Considerations
 **tpm_nvdefine** uses GNU _GETPASSWD_ to prompt for passwords if using the --pwdo option (prompt for non-commandline input of owner password), which always attempts to read input from the terminal device rather than stdin.  As a result, input redirection (storing the password in a file in ramfs) is problematic.  If you are interested in this functionality, please submit an issue and I will see about adding it to **tpm_nvdefine**.
+
+# Future work
+[ ] Add options to **tpm_nvdefine** and **tpm_nvwrite** to read password from stdin or a designated file.
 
 # Acknowledgements
 Special thanks to [Kent Yoder](https://github.com/shpedoikal) for providing the original TPM-LUKS framework for **nv_readvalue** and the other TPM-related commands, and [Nathaniel McCallum](https://npmccallum.gitlab.io/about/) for his work on Clevis, whose dracut hooks provide the basis for this project.
