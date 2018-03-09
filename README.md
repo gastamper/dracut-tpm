@@ -37,7 +37,7 @@ tpm_nvdefine -i 1 -s 256 -p "OWNERWRITE|READ_STCLEAR" -o <owner_password>
 tpm_nvwrite -i 1 -s 256 -f /mnt/ramfs/key -z -p
 ```
 
-# Consisderations
+# Considerations
 **tpm_nvdefine** uses GNU _GETPASSWD_ to prompt for passwords if using the --pwdo option (prompt for non-commandline input of owner password), which always attempts to read input from the terminal device rather than stdin.  As a result, input redirection (storing the password in a file in ramfs) is problematic.  If you are interested in this functionality, please submit an issue and I will see about adding it to tpm_nvdefine.
 
 # Acknowledgements
