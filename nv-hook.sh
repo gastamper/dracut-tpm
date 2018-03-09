@@ -46,7 +46,7 @@ for question in /run/systemd/ask-password/ask.*; do
     [ -z "$d" -o -z "$s" ] && continue
 
     # If using trousers
-    if [[ $METHOD -eq 1 ]]; then
+    if [[ $METHOD -eq 0 ]]; then
       # At this point, begin setup for tcsd
       # tcsd requires a user 'tss' and the /var/lib/tpm folder exist
       echo tss:x:100:100:TSS:/:/sbin/nologin >> /etc/passwd
