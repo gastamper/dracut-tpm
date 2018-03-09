@@ -57,6 +57,8 @@ The PCR table is as follows for TPM 1.2:
 |16         | Debug |
 |23         | Application support |
 
+The current status of the PCR is generally visible in */sys/class/tpm/tpm0/pcrs*.
+
 While recommending a specific set of PCRs as 'optimal' is outside of scope for this project, typically PCRs 0 through 5 would provide a reasonable starting point.  It is worth noting that an NVRAM area can be bound to no, one, some, or all PCRs depending on preference, by issuing multiple -r arguments to the **tpm_nvdefine** command.
 
 # The READ_STCLEAR flag
