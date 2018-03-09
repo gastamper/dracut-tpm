@@ -2,8 +2,9 @@
 This project provides a *simple* module for dracut to allow reading keys from TPM 1.2 modules to unlock LUKS devices at boot time.
 
 # Requirements
-This project uses **ncat** to communicate with the systemd-ask-password socket; this program is available in CentOS' nmap-ncat package.
-One of the two options for reading from the NVRAM must be chosen:
+This project uses **ncat** to communicate with the systemd-ask-password socket; this program is available in CentOS' nmap-ncat package.  
+
+Additionally, one of the two options for reading from the NVRAM must be chosen:
 1. Use **tcsd** and **tpm_nvread** - this requires the *trousers* and *tpm-tools* packages in CentOS
 2. Use the standalone program **nv_readvalue** - this requires building **nv_readvalue** from [this repository](http://github.com/gastamper/tpm-luks)
 
