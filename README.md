@@ -51,9 +51,11 @@ chmod 700 /mnt/ramfs
 # This is necessary to add new keys to a LUKS device
 echo -n "exising_luks_key" > /mnt/ramfs/keyfile
 # Read values from the specified NVRAM slot into keyfile
-nv_readvalue -ix 1 -sz 256 -a | cryptsetup luksAddKey /dev/sda3 - --key-file=/mnt/ramfs/keyfile
-# tcsd; tpm_nvread -i 1 -s 256 -f /mnt/ramfs/nvramkey
-# cryptsetup luksAddKey /dev/sda3 /mnt/ramfs/nvramkey --key-file=/mnt/ramfs/keyfile
+# If using ASCII-only key, can use nv_readvalue:
+# nv_readvalue -ix 1 -sz 256 -a | cryptsetup luksAddKey /dev/sda3 - --key-file=/mnt/ramfs/keyfile
+tcsd
+tpm_nvread -i 1 -s 256 -f /mnt/ramfs/nvramkey
+cryptsetup luksAddKey /dev/sda3 /mnt/ramfs/nvramkey --key-file=/mnt/ramfs/keyfile
 # Unmount RAMFS
 umount /mnt/ramfs
 ```
