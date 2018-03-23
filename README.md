@@ -8,6 +8,8 @@ Additionally, one of the two options for reading from the NVRAM must be chosen:
 1. Use **tcsd** and **tpm_nvread** - this requires the *trousers* and *tpm-tools* packages in CentOS
 2. Use the standalone program **nv_readvalue** - this requires building **nv_readvalue** from [this repository](http://github.com/gastamper/tpm-luks)
 
+Finally, you'll need to use a bootloader that supports extending PCRs.  There are some various options for this, including TrustedGrub2, TPM-LUKS, and mjg59's fork of grub.
+
 Why choose one over the other?
 **tcsd** and **tpm_nvread** are included in the base repositories for CentOS, making this path somewhat more straightforward.  As a downside, it is more complicated "under the hood" so for those who prefer simplicity and a slim initramfs, this may not be the ideal options.  **nv_readvalue** however can be built as a standalone program, making this single program the only dependency for the dracut module.
 
