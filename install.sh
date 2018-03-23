@@ -3,7 +3,7 @@
 error_out() {
   echo "clevis-dracut-tpm requires one of trousers/tpm-tools or nv_readvalue."
   echo "To install trousers/tpm-tools, run 'yum install trousers tpm-tools'"
-  echo "To use nv_readvalue, consult http://github.com/gastamper/centos-dracut-tpm"
+  echo "To use nv_readvalue, consult http://github.com/gastamper/dracut-tpm"
   exit 2
 }
 
