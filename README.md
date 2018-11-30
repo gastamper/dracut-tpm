@@ -16,7 +16,8 @@ Additionally, one of the two options for reading from the NVRAM must be chosen:
 2. Use the standalone program **nv_readvalue** - this requires building **nv_readvalue** from [this repository](http://github.com/gastamper/tpm-luks)
 
 Why choose one over the other?
-**tcsd** and **tpm_nvread** are included in the base repositories for CentOS, making this path somewhat more straightforward.  As a downside, it is more complicated "under the hood" so for those who prefer simplicity and a slim initramfs, this may not be the ideal options.  **nv_readvalue** however can be built as a standalone program, making this single program the only dependency for the dracut module.
+**tcsd** and **tpm_nvread** are included in the base repositories for CentOS, making this path somewhat more straightforward.  As a downside, it is more complicated "under the hood" so for those who prefer simplicity and a slim initramfs, this may not be the ideal options.  Additionally, a separate user *tss* is required for tcsd to function (```echo tss:x:100:100:TSS:/:/sbin/nologin >> /etc/passwd```)  
+**nv_readvalue** however can be built as a standalone program, making this single program the only dependency for the dracut module.
 
 It is ultimately a matter of preference with little practical value.  For most users, option 1 is sufficient.
 
