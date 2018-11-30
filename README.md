@@ -1,3 +1,7 @@
+# NOTICE: this repository is unmaintained and provided for historical purposes only.  
+The clevis project now includes TPM 2.0 support, so I would suggest migrating in that direction where possible.
+  
+  
 # dracut-tpm
 This project provides a *simple* module for dracut to allow reading keys from TPM 1.2 modules to unlock LUKS devices at boot time.
 
