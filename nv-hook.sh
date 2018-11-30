@@ -48,8 +48,6 @@ for question in /run/systemd/ask-password/ask.*; do
     # If using trousers
     if [[ $METHOD -eq 0 ]]; then
       # At this point, begin setup for tcsd
-      # tcsd requires a user 'tss' and the /var/lib/tpm folder exist
-      echo tss:x:100:100:TSS:/:/sbin/nologin >> /etc/passwd
       mkdir -p /var/lib/tpm
       # Create the RAMFS to hold the key in transit
       mkdir -p /mnt/ramfs
