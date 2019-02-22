@@ -24,13 +24,14 @@ It is ultimately a matter of preference with little practical value.  For most u
 # Installation
 1. Create and store keys in your preferred NVRAM slot (see below)
 2. Clone this repository
-3. Run install.sh; this performs the following steps:
+3. Update the inst_multiple line in module-setup.sh and remove whichever of nv_readvalue/tcsd & tpm_nvread you **aren't** using.
+4. Run install.sh; this performs the following steps:
    1. Ensures that the necessary files, either **tcsd** and **tpm_nvread** or **nv_readvalue** are available on your system.
    2. Ensures that the TPM module is owned, active and enabled.
    3. If not using default values, updates the module scripts to use the user-specified NVRAM index and size.
    4. Creates a directory, /usr/lib/dracut/modules.d/50dracuttpm
    5. Copies the dracut module files to the above directory: *module-setup.sh* and *nv-hook.sh*
-4. Reboot system and confirm automatic unlocking works.
+5. Reboot system and confirm automatic unlocking works.
 
 # Storing keys in NVRAM
 Keys are stored in NVRAM by using the **tpm_nvwrite** command, part of the tpm-tools package.  The steps for performing this process are as follows; note that this assumes that you have already taken ownership (initialized and taken control) of the TPM module using the **tpm_takeownership** command.
