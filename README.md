@@ -1,6 +1,5 @@
 # NOTICE: this repository is unmaintained and provided for historical purposes only.  
-The clevis project now includes TPM 2.0 support, so I would suggest migrating in that direction where possible.
-  
+The clevis project now includes TPM 2.0 support, so I would suggest migrating in that direction where possible.  
   
 # dracut-tpm
 This project provides a *simple* module for dracut to allow reading keys from TPM 1.2 modules to unlock LUKS devices at boot time.
@@ -106,10 +105,7 @@ If you wish to use nv_readvalue, follow the below instructions:
 3. Copy nv_readvalue to /usr/bin: `cp swtpm-utils/nv_readvalue /usr/bin`
 
 # Considerations
-**tpm_nvdefine** uses GNU _GETPASSWD_ to prompt for passwords if using the --pwdo option (prompt for non-commandline input of owner password), which always attempts to read input from the terminal device rather than stdin.  As a result, input redirection (storing the password in a file in ramfs) is problematic.  If you are interested in this functionality, please submit an issue and I will see about adding it to **tpm_nvdefine**.
-
-# Future work
-[ ] Add options to **tpm_nvdefine** and **tpm_nvwrite** to read password from stdin or a designated file.
+**tpm_nvdefine** uses GNU _GETPASSWD_ to prompt for passwords if using the --pwdo option (prompt for non-commandline input of owner password), which always attempts to read input from the terminal device rather than stdin.  As a result, input redirection (storing the password in a file in ramfs) is problematic.
 
 # Acknowledgements
 Special thanks to [Kent Yoder](https://github.com/shpedoikal) for providing the original TPM-LUKS framework for **nv_readvalue** and the other TPM-related commands, and [Nathaniel McCallum](https://npmccallum.gitlab.io/about/) for his work on Clevis, whose dracut hooks provide the basis for this project.
